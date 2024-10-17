@@ -121,4 +121,9 @@
         }
 
         function getRandomEmojiIncorrect() {
-            const emojis = ['🤪', '🖕', '😮‍💨', '🫤', '😑
+            const emojis = ['🤪', '🖕', '😮‍💨', '🫤', '😑', '🙄', '🤨'];
+            return emojis[Math.floor(Math.random() * emojis.length)];
+        }
+
+        function disableAnswers(questionDiv) {
+            const answers = questionDiv.querySelectorAll('.answer');

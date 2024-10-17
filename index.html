@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giải trí cùng Vinh😁</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            padding: 20px;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .answer {
+            margin: 10px 0;
+            cursor: pointer;
+            padding: 10px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .correct {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        .incorrect {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>Giải trí cùng Vinh😁</h1>
+    <div id="quiz"></div>
+    <button onclick="loadQuiz()">Tải lại câu hỏi</button>
+
+    <script>
+        const questions = [
+            { question: "Cái gì luôn đi lên nhưng không bao giờ đi xuống?", answers: ["Tuổi", "Nước", "Mây"], correct: 0 },
+            { question: "Con gì mà chạy mà không có chân?", answers: ["Gió", "Nước", "Sóng"], correct: 0 },
+            { question: "Ai có thể nói mà không có miệng?", answers: ["Đồng hồ", "Sách", "Điện thoại"], correct: 0 },
+            { question: "Cái gì càng nhiều càng ít?", answers: ["Ngủ", "Tiền", "Người"], correct: 0 },
+            { question: "Cái gì không thể chạm vào nhưng lại có thể thấy?", answers: ["Không khí", "Nắng", "Gió"], correct: 0 },
+            { question: "Có hai anh em nhưng không cùng mẹ?", answers: ["Tay trái tay phải", "Người và thú", "Sách và bút"], correct: 0 },
+            { question: "Cái gì chui vào hộp nhưng không thể ra?", answers: ["Hơi thở", "Giấc mơ", "Câu hỏi"], correct: 0 },
+            { question: "Cái gì có mặt ở khắp mọi nơi nhưng không thấy được?", answers: ["Thời gian", "Gió", "Không khí"], correct: 0 },
+            { question: "Có cái gì lội dưới nước mà không bị ướt?", answers: ["Bóng", "Ánh sáng", "Bùn"], correct: 0 },
+            { question: "Con gì không có chân mà vẫn chạy?", answers: ["Nước", "Khói", "Gió"], correct: 0 },
+            { question: "Ai có thể sống mà không cần ăn?", answers: ["Nước", "Gió", "Mặt trời"], correct: 0 },
+            { question: "Cái gì bạn chỉ có thể nhìn thấy vào ban đêm?", answers: ["Sao", "Mặt trăng", "Bóng tối"], correct: 0 },
+            { question: "Cái gì luôn cười nhưng không có miệng?", answers: ["Mặt trời", "Mặt trăng", "Bóng"], correct: 0 },
+            { question: "Cái gì đi mà không đi?", answers: ["Giấc mơ", "Thời gian", "Cảm xúc"], correct: 0 },
+            { question: "Có bao nhiêu tháng trong năm có 28 ngày?", answers: ["1", "12", "6"], correct: 1 },
+            { question: "Ai có thể đi mà không có chân?", answers: ["Sóng", "Thời gian", "Gió"], correct: 0 },
+            { question: "Cái gì có thể bay nhưng không có cánh?", answers: ["Khói", "Sao", "Mặt trời"], correct: 0 },
+            { question: "Cái gì không có đầu mà vẫn có thể nói?", answers: ["Đồng hồ", "Bút", "Sách"], correct: 0 },
+            { question: "Có một người làm rơi tiền xuống đất, anh ta sẽ làm gì?", answers: ["Nhặt tiền lên", "Để đó", "Bỏ đi"], correct: 0 },
+            { question: "Cái gì bạn không thể cầm nhưng có thể chạm vào?", answers: ["Âm thanh", "Hương thơm", "Ánh sáng"], correct: 0 },
+            { question: "Có cái gì luôn ở trên trời nhưng không bao giờ xuống đất?", answers: ["Sao", "Mặt trời", "Trăng"], correct: 0 },
+            { question: "Con gì đi ra ngoài nhưng không có chân?", answers: ["Bóng tối", "Âm thanh", "Gió"], correct: 0 },
+            { question: "Cái gì không thể ăn nhưng có thể uống?", answers: ["Không khí", "Nước", "Thời gian"], correct: 0 },
+            { question: "Có cái gì vào ban đêm là đen, ban ngày là trắng?", answers: ["Bóng tối", "Mặt trời", "Bóng"], correct: 0 },
+            { question: "Cái gì có thể làm mọi người cười?", answers: ["Chuyện hài", "Sách", "Nhạc"], correct: 0 },
+            { question: "Cái gì có thể biến đổi nhưng không thể thấy?", answers: ["Cảm xúc", "Thời gian", "Tâm trạng"], correct: 0 },
+            { question: "Có cái gì không có mắt mà vẫn thấy?", answers: ["Lòng người", "Cảm xúc", "Trái tim"], correct: 0 },
+            { question: "Cái gì đi nhanh nhất?", answers: ["Suy nghĩ", "Ánh sáng", "Âm thanh"], correct: 0 },
+            { question: "Ai có thể đi một mình nhưng vẫn có bạn?", answers: ["Mặt trời", "Mặt trăng", "Cảm xúc"], correct: 0 },
+            { question: "Cái gì lội dưới nước mà không bị ướt?", answers: ["Bóng", "Ánh sáng", "Giấc mơ"], correct: 0 },
+            { question: "Cái gì không có miệng nhưng vẫn có thể nói?", answers: ["Sách", "Bút", "Thời gian"], correct: 0 },
+            { question: "Có cái gì đứng yên mà vẫn chuyển động?", answers: ["Kim đồng hồ", "Bóng", "Nước"], correct: 0 },
+            { question: "Cái gì càng cho càng nhiều?", answers: ["Tình yêu", "Tiền", "Thời gian"], correct: 0 },
+            { question: "Cái gì bạn không thể thấy được nhưng có thể cảm nhận?", answers: ["Gió", "Nhiệt độ", "Âm thanh"], correct: 0 }
+        ];
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function loadQuiz() {
+            const quizContainer = document.getElementById('quiz');
+            quizContainer.innerHTML = '';
+
+            const shuffledQuestions = shuffle([...questions]);
+            shuffledQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `<h3>${index + 1}. ${q.question}</h3>`;
+
+                q.answers.forEach((answer, i) => {
+                    const answerDiv = document.createElement('div');
+                    answerDiv.className = 'answer';
+                    answerDiv.textContent = answer;
+
+                    answerDiv.onclick = () => {
+                        if (i === q.correct) {
+                            answerDiv.classList.add('correct');
+                            answerDiv.innerHTML += ' ' + getRandomEmojiCorrect();
+                        } else {
+                            answerDiv.classList.add('incorrect');
+                            answerDiv.innerHTML += ' ' + getRandomEmojiIncorrect();
+                        }
+                        disableAnswers(questionDiv);
+                    };
+
+                    questionDiv.appendChild(answerDiv);
+                });
+                quizContainer.appendChild(questionDiv);
+            });
+        }
+
+        function getRandomEmojiCorrect() {
+            const emojis = ['🤯', '🎉', '🥳', '😮', '🫰'];
+            return emojis[Math.floor(Math.random() * emojis.length)];
+        }
+
+        function getRandomEmojiIncorrect() {
+            const emojis = ['🤪', '🖕', '😮‍💨', '🫤', '😑
